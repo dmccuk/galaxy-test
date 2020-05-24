@@ -8,8 +8,8 @@ galaxy_info:
   github_branch: master
 
   galaxy_tags:
-    - web
-    - nginx
+    - monitoring
+    - server
 
 dependencies: []
   # List your role dependencies here, one per line. Be sure to remove the '[]' above,
