@@ -1,0 +1,4 @@
+---
+# tasks file for new_app1
+
+- include: new_app1

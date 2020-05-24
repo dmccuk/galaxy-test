@@ -2,4 +2,4 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - test_module
+    - new_app1
