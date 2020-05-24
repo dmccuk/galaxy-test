@@ -3,20 +3,20 @@
   file:
     path: /etc/ansible/facts.d
     state: directory
-    mode: 0747
+    mode: '0747'
   become: True
 
 - name: Insert empty local fact file
   copy:
     src: files/local.fact
     dest: /etc/ansible/facts.d/local.fact
-    mode: 0646
+    mode: '0646'
 
 - name: Insert custom fact script
   copy:
     src: files/customFactSetup.sh
     dest: /tmp/customFactSetup.sh
-    mode: 0755
+    mode: '0755'
 
 - name: add Instance facts
   shell: /tmp/customFactSetup.sh
@@ -33,19 +33,6 @@
   file:
     path: /tmp/facts
     state: directory
-
-- name: Copy fact output to file
-  copy:
-    content: "{{ hostvars[inventory_hostname]|to_json }}"
-    dest: '/tmp/facts/{{ ansible_hostname }}.yaml'
-  delegate_to: localhost
-
-- name: Post to API
-  apidb:
-    apidbtoken:  "{{ apidb_token }}"
-  register: result
-  delegate_to: localhost
-  run_once: true
 
 - name: Remove custom fact script
   file:

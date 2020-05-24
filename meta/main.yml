@@ -3,13 +3,20 @@ galaxy_info:
   author: Dennis McCarthy
   description: Create local facts
   company:
-  license: license (GPL-2.0-or-later, MIT, etc)
+  license: MIT
   min_ansible_version: 2.9
   github_branch: master
 
   galaxy_tags:
     - monitoring
     - server
+
+  platforms:
+  - name: EL
+    versions:
+    - all
+    - 6
+    - 7
 
 dependencies: []
   # List your role dependencies here, one per line. Be sure to remove the '[]' above,
