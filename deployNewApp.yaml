@@ -1,7 +1,0 @@
----
-- hosts: all
-  become: yes
-  vars:
-    new_app_loglevel: error
-  roles:
-    - new_app1
