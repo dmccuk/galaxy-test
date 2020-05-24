@@ -1,0 +1,4 @@
+---
+# defaults file for local_facts
+apidb_token: "ansibledbtest"
+
