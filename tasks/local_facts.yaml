@@ -19,7 +19,7 @@
     mode: '0755'
 
 - name: add Instance facts
-  shell: /tmp/customFactSetup.sh
+  script: /tmp/customFactSetup.sh
 
 - name: local facts
   debug: var=ansible_local
@@ -29,17 +29,8 @@
 - name: reload facts
   setup: filter=ansible_local
 
-- name: create facts file DIR
-  file:
-    path: /tmp/facts
-    state: directory
-
-- name: Remove custom fact script
-  file:
-    path: /tmp/customFactSetup.sh
-    state: absent
-
-- name: remove facts file DIR
-  file:
-    path: /tmp/facts
-    state: absent
+- name: create facts file
+  template:
+    src: templates/local_facts_file.j2
+    dest: /tmp/local_facts
+    

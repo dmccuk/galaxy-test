@@ -1,2 +1,4 @@
 ---
 # defaults file for local_facts
+support_team: "{{ ansible_local.local.local_facts.support_team }}"
+ec2_region: "{{ ansible_local.local.local_facts.ec2_region }}"
