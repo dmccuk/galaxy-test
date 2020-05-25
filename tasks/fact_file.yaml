@@ -1,0 +1,5 @@
+---
+- name: create a local facts file
+  template:
+    src: templates/local_facts_file.j2
+    dest: /tmp/local_facts

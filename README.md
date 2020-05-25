@@ -1,12 +1,32 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+This role gives you a framework to implement local facts (some people call them custome facts) within your server environment.
+
+Installation
+===========
+
+Using ansible-galaxy:
+````
+$ ansible-galaxy install weareinteractive.nginx
+````
+
+Using requirements.yml:
+```
+- src: weareinteractive.nginx
+````
+
+Using git:
+````
+$ git clone https://github.com/dmccuk/local-facts.git
+````
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+There are no specific requirements to use this role. Just an ansible version of 2.5 or above.
+
+In the code I give examples of creating local facts from AWS meta-data. You can use this or remove it and add your own.
 
 Role Variables
 --------------
@@ -16,16 +36,17 @@ A description of the settable variables for this role should go here, including 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Ansible >= 2.5
 
 Example Playbook
 ----------------
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
+- hosts: servers
+  gather_facts: True
       roles:
-         - { role: username.rolename, x: 42 }
+         - local_facts
 
 License
 -------
@@ -35,4 +56,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Dennis McCarthy
