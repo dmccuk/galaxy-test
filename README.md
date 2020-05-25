@@ -1,7 +1,7 @@
 Local Facts role
 =========
 
-dmccuk.local_facts is an Ansible role that gives you a framework to implement local facts within your server environment.
+````dmccuk.local_facts```` is an Ansible role that gives you a framework to implement local facts within your server environment.
  * No packages are installed
  * Creates a local /etc/ansible/facts.d/local.fact file
  * runs a script to collect facts and adds them to the local.fact file.
@@ -50,10 +50,12 @@ Example Playbook
 
 An example of how to use the role:
 
+````
 - hosts: servers
   gather_facts: True
   roles:
     - local_facts
+````
 
 License
 -------
