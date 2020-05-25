@@ -8,12 +8,12 @@ Installation
 
 Using ansible-galaxy:
 ````
-$ ansible-galaxy install weareinteractive.nginx
+$ ansible-galaxy install dmccuk.local_facts
 ````
 
 Using requirements.yml:
 ```
-- src: weareinteractive.nginx
+- src: dmccuk.local_facts
 ````
 
 Using git:
