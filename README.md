@@ -1,7 +1,11 @@
-Role Name
+Local Facts role
 =========
 
-This role gives you a framework to implement local facts (some people call them custome facts) within your server environment.
+dmccuk.local_facts is an Ansible role that gives you a framework to implement local facts within your server environment.
+ * No pacjages are installed
+ * Create a local /etc/ansible/facts.d/local.fact file
+ * runs a script to collect facts and adds them to the local.fact file.
+ * Example: Creates a local /tmp/local_facts file containg some of the custom facts.
 
 Installation
 ===========
@@ -31,7 +35,7 @@ In the code I give examples of creating local facts from AWS meta-data. You can 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+There are no specific role variables. Instead you can configure you're own variables to pull out custom facts and use them in your playbooks.
 
 Dependencies
 ------------
@@ -41,12 +45,12 @@ Ansible >= 2.5
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+An example of how to use the role:
 
 - hosts: servers
   gather_facts: True
-      roles:
-         - local_facts
+  roles:
+    - local_facts
 
 License
 -------
