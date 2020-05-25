@@ -9,7 +9,8 @@ galaxy_info:
 
   galaxy_tags:
     - monitoring
-    - server
+    - system
+    - facts
 
   platforms:
   - name: EL
@@ -17,6 +18,11 @@ galaxy_info:
     - 6
     - 7
     - 8
+  - name: Ubuntu
+    versions:
+    - xenial
+    - bionic
+    - disco
 
 dependencies: []
   # List your role dependencies here, one per line. Be sure to remove the '[]' above,
