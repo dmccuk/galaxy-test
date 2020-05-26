@@ -56,7 +56,7 @@ Example Playbook
 An example of how to use the role:
 
 ````
-- hosts: servers
+- hosts: all
   gather_facts: True
   roles:
     - local_facts
