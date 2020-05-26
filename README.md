@@ -67,6 +67,23 @@ License
 
 BSD
 
+Creating Custom facts
+------------
+
+Custom facts are created by running a script that works out the facts and populates the /etc/ansible/fact.d/local.fact file. In this role, you can find the script under ````..file/customFactSetup.sh````. I have given you some simple examples of creating facts based on AWS meta-data as well as an example case statements to provide logic for how the fact will be populated.
+
+The ````default/main.yml```` file converts the ansible_local_facts into varibles we can use in our playbooks. For example:
+
+````
+---
+# defaults file for local_facts
+server_env: "{{ ansible_local.local.local_facts.support_team }}"
+support_team: "{{ ansible_local.local.local_facts.support_team }}"
+ec2_region: "{{ ansible_local.local.local_facts.ec2_region }}"
+````
+
+You can update these examples to fit your needs.
+
 Example clone and run
 ---------------------
 In this example, I clone the role and run it against the localhost. To run against your inventory, just change the ````- hosts: <server>```` to what you need it to be.
