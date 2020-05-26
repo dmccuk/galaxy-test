@@ -69,7 +69,7 @@ BSD
 
 Example clone and run
 ---------------------
-In this example, I clone and run the role against the local host. To run against your inventory, just change the ````- hosts: <server>```` to what you need it to be.
+In this example, I clone the role and run it against the localhost. To run against your inventory, just change the ````- hosts: <server>```` to what you need it to be.
 
 ````
 $ ansible-galaxy install --roles-path . dmccuk.local_facts
