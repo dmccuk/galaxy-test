@@ -67,6 +67,81 @@ License
 
 BSD
 
+Example clone and run
+---------------------
+In this example, I clone and run the role against the local host. To run against your inventory, just change the ````- hosts: <server>```` to what you need it to be.
+
+````
+$ ansible-galaxy install --roles-path . dmccuk.local_facts
+- downloading role 'local_facts', owned by dmccuk
+- downloading role from https://github.com/dmccuk/local-facts/archive/master.tar.gz
+- extracting dmccuk.local_facts to /home/ubuntu/dmccuk.local_facts
+- dmccuk.local_facts (master) was installed successfully
+
+$ vi deploy.yaml
+- hosts: localhost
+  connection: local
+  gather_facts: True
+  roles:
+    - dmccuk.local_facts
+
+$ ansible-playbook deploy.yaml
+[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match
+'all'
+
+PLAY [localhost] *****************************************************************************************************
+
+TASK [Gathering Facts] ***********************************************************************************************
+ok: [localhost]
+
+TASK [dmccuk.local_facts : Create custom fact directory] *************************************************************
+changed: [localhost]
+
+TASK [dmccuk.local_facts : Insert empty local fact file] *************************************************************
+changed: [localhost]
+
+TASK [dmccuk.local_facts : Insert custom fact script] ****************************************************************
+changed: [localhost]
+
+TASK [dmccuk.local_facts : add Instance facts] ***********************************************************************
+changed: [localhost]
+
+TASK [dmccuk.local_facts : local facts] ******************************************************************************
+ok: [localhost] => {
+    "ansible_local": "VARIABLE IS NOT DEFINED!"
+}
+
+TASK [dmccuk.local_facts : reload facts] *****************************************************************************
+ok: [localhost]
+
+TASK [dmccuk.local_facts : create a local facts file] ****************************************************************
+changed: [localhost]
+
+PLAY RECAP ***********************************************************************************************************
+localhost                  : ok=8    changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+$ cat /etc/ansible/facts.d/local.fact
+[local_facts]
+EC2_INSTANCE_TYPE: t2.micro
+EC2_AVAIL_ZONE: eu-central-1b
+EC2_REGION: eu-central-1
+AMI_ID: ami-09356619876445425
+environment: Dev
+Support_Team: web
+Callout: 8-6
+
+$ cat /tmp/local_facts
+These are the ansible variables from the playbook:
+you can use them in a template like this:
+
+environment is web
+The server support team is the web team.
+Your EC2 regions is eu-central-1.
+````
+
+Now make the changes you need for your environment re-run.
+
+
 Author Information
 ------------------
 
