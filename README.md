@@ -2,9 +2,9 @@ Local Facts role
 =========
 
 ````dmccuk.local_facts```` is an [Ansible](https://www.ansible.com) role that gives you a framework to implement local facts within your server environment.
- * No packages are installed
- * Creates a local ````/etc/ansible/facts.d/local.fact```` file
- * runs a script to collect facts and adds them to the ````local.fact```` file.
+ * This role installs NO packages.
+ * Creates a local ````/etc/ansible/facts.d/local.fact```` file in the default ansible location.
+ * Runs a script to collect facts and add them to the ````local.fact```` file.
  * Example: Creates a local ````/tmp/local_facts```` file containg some of the custom facts.
  * Example AWS fact creation can be found in ````files/customFactSetup.sh````
 
@@ -16,6 +16,11 @@ Installation
 Using ansible-galaxy:
 ````
 $ ansible-galaxy install dmccuk.local_facts
+````
+
+Using ansible-galaxy to install to the current directory:
+````
+$ ansible-galaxy install --roles-path . dmccuk.local_facts
 ````
 
 Using requirements.yml:
