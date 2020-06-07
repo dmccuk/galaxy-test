@@ -6,26 +6,44 @@
 # Edit this file to add your own facts relevant
 # to your environment.
 # I've added a few examples below to help get you started.
+cat /dev/null > /etc/ansible/facts.d/local.fact
 
-EC2_INSTANCE_TYPE=`curl -s http://169.254.169.254/latest/meta-data/instance-type`
-EC2_AVAIL_ZONE=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`
-EC2_REGION="`echo \"$EC2_AVAIL_ZONE\" | sed 's/[a-z]$//'`"
-AMI_ID=`curl -s http://169.254.169.254/latest/meta-data/ami-id`
+AWS=`curl -s http://169.254.169.254/latest/dynamic/instance-identity/ | grep signature >/dev/null; echo $?`
+AZURE=`echo "1"`
 
-echo "EC2_INSTANCE_TYPE: "$EC2_INSTANCE_TYPE >> /etc/ansible/facts.d/local.fact
-echo "EC2_AVAIL_ZONE: "$EC2_AVAIL_ZONE >> /etc/ansible/facts.d/local.fact
-echo "EC2_REGION: "$EC2_REGION >> /etc/ansible/facts.d/local.fact
-echo "AMI_ID: "$AMI_ID >> /etc/ansible/facts.d/local.fact
+
+if [ $AWS == 0 ]
+then
+  EC2_INSTANCE_TYPE=`curl -s http://169.254.169.254/latest/meta-data/instance-type`
+  EC2_AVAIL_ZONE=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`
+  EC2_REGION="`echo \"$EC2_AVAIL_ZONE\" | sed 's/[a-z]$//'`"
+  AMI_ID=`curl -s http://169.254.169.254/latest/meta-data/ami-id`
+
+  echo "cloud: AWS" >> /etc/ansible/facts.d/local.fact
+  echo "EC2_INSTANCE_TYPE: "$EC2_INSTANCE_TYPE >> /etc/ansible/facts.d/local.fact
+  echo "EC2_AVAIL_ZONE: "$EC2_AVAIL_ZONE >> /etc/ansible/facts.d/local.fact
+  echo "EC2_REGION: "$EC2_REGION >> /etc/ansible/facts.d/local.fact
+  echo "AMI_ID: "$AMI_ID >> /etc/ansible/facts.d/local.fact
+
+elif [ AZURE == 0 ]
+then
+  echo " Check this link for more info: https://docs.microsoft.com/en-us/azure/virtual-machines/windows/instance-metadata-service"
+  echo "cloud: AZURE" >> /etc/ansible/facts.d/local.fact
+
+else
+  echo "cloud: no_cloud" >> /etc/ansible/facts.d/local.fact
+
+fi
 
 case $EC2_AVAIL_ZONE in
-	eu-west-1a)
-	 echo "environment: Production" >> /etc/ansible/facts.d/local.fact
+        eu-west-1a)
+         echo "environment: Production" >> /etc/ansible/facts.d/local.fact
          echo "Support_Team: Hadoop" >> /etc/ansible/facts.d/local.fact
          echo "Callout: 24-7" >> /etc/ansible/facts.d/local.fact
-	;;
-	*)
-	 echo "environment: Dev" >> /etc/ansible/facts.d/local.fact
+        ;;
+        *)
+         echo "environment: Dev" >> /etc/ansible/facts.d/local.fact
          echo "Support_Team: web" >> /etc/ansible/facts.d/local.fact
          echo "Callout: 8-6" >> /etc/ansible/facts.d/local.fact
-	;;
+        ;;
 esac
