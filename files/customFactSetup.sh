@@ -11,6 +11,7 @@
 AWS=`curl -s http://169.254.169.254/latest/dynamic/instance-identity/ | grep signature >/dev/null; echo $?`
 AZURE=`curl -s -H Metadata:true http://169.254.169.254/metadata/instance |grep api-version >/dev/null; echo $?`
 
+(
 if [ $AWS == 0 ]
 then
   EC2_INSTANCE_TYPE=`curl -s http://169.254.169.254/latest/meta-data/instance-type`
@@ -18,14 +19,14 @@ then
   EC2_REGION="`echo \"$EC2_AVAIL_ZONE\" | sed 's/[a-z]$//'`"
   AMI_ID=`curl -s http://169.254.169.254/latest/meta-data/ami-id`
 
-  echo "cloud: AWS" >> /etc/ansible/facts.d/local.fact
-  echo "INSTANCE_TYPE: "$EC2_INSTANCE_TYPE >> /etc/ansible/facts.d/local.fact
-  echo "AVAIL_ZONE: "$EC2_AVAIL_ZONE >> /etc/ansible/facts.d/local.fact
-  echo "REGION: "$EC2_REGION >> /etc/ansible/facts.d/local.fact
-  echo "AMI_ID: "$AMI_ID >> /etc/ansible/facts.d/local.fact
-  echo "environment: Dev" >> /etc/ansible/facts.d/local.fact
-  echo "Support_Team: web" >> /etc/ansible/facts.d/local.fact
-  echo "Callout: 8-6" >> /etc/ansible/facts.d/local.fact
+  echo "cloud: AWS"
+  echo "INSTANCE_TYPE: "$EC2_INSTANCE_TYPE
+  echo "AVAIL_ZONE: "$EC2_AVAIL_ZONE
+  echo "REGION: "$EC2_REGION
+  echo "AMI_ID: "$AMI_ID
+  echo "environment: Dev"
+  echo "Support_Team: web"
+  echo "Callout: 8-6"
 
 elif [ $AZURE == 0 ]
 then
@@ -34,20 +35,21 @@ then
   AZURE_REGION=`curl -s -H Metadata:true http://169.254.169.254/metadata/instance?api-version=2019-11-01 | sed -e 's/[}"]*\(.\)[{"]*/\1/g;y/,/\n/' | grep location | awk -F: '{print $2}'`
   AZURE_RESOURCE_GROUP_NAME=`curl -s -H Metadata:true http://169.254.169.254/metadata/instance?api-version=2019-11-01 | sed -e 's/[}"]*\(.\)[{"]*/\1/g;y/,/\n/' | grep resourceGroupName | awk -F: '{print $2}'`
 
-  echo "cloud: AZURE" >> /etc/ansible/facts.d/local.fact
-  echo "INSTANCE_SIZE: "$AZURE_INSTANCE_TYPE >> /etc/ansible/facts.d/local.fact
-  echo "REGION: "$AZURE_REGION >> /etc/ansible/facts.d/local.fact
-  echo "RESOURCE_GROUP_NAME: "$AZURE_RESOURCE_GROUP_NAME >> /etc/ansible/facts.d/local.fact
-  echo "environment: production" >> /etc/ansible/facts.d/local.fact
-  echo "Support_Team: database" >> /etc/ansible/facts.d/local.fact
-  echo "Callout: 24-7" >> /etc/ansible/facts.d/local.fact
+  echo "cloud: AZURE"
+  echo "INSTANCE_SIZE: "$AZURE_INSTANCE_TYPE
+  echo "REGION: "$AZURE_REGION
+  echo "RESOURCE_GROUP_NAME: "$AZURE_RESOURCE_GROUP_NAME
+  echo "environment: production"
+  echo "Support_Team: database"
+  echo "Callout: 24-7"
 
 else
-  echo "cloud: no_cloud" >> /etc/ansible/facts.d/local.fact
-  echo "environment: Dev" >> /etc/ansible/facts.d/local.fact
-  echo "Support_Team: operations" >> /etc/ansible/facts.d/local.fact
-  echo "Callout: none" >> /etc/ansible/facts.d/local.fact
+  echo "cloud: no_cloud"
+  echo "environment: Dev"
+  echo "Support_Team: operations"
+  echo "Callout: none"
 fi
+) >> /etc/ansible/facts.d/local.fact
 
 
 #########################
