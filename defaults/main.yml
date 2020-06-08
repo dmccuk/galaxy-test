@@ -1,5 +1,5 @@
 ---
 # defaults file for local_facts
-server_env: "{{ ansible_local.local.local_facts.support_team }}"
+server_env: "{{ ansible_local.local.local_facts.environment }}"
 support_team: "{{ ansible_local.local.local_facts.support_team }}"
 ec2_region: "{{ ansible_local.local.local_facts.ec2_region }}"
