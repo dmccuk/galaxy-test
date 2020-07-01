@@ -1,0 +1,105 @@
+---
+# This example is a modified version of https://github.com/dsglaser/cis-security
+#
+# Demo code showing what CIS checks are passing or failing.
+
+  - name: Insert empty local fact file
+    copy:
+      src: files/cis.fact
+      dest: /etc/ansible/facts.d/cis.fact
+      mode: '0646'
+
+  #  check to see if various filesystem options exist for the filesystem
+  - name: 1.1.7 - /var/tmp partition and mount options
+    block:
+      # Create a empty integer variable and set it as a fact on the managed
+      #  machine.
+      - name: 1.1.7 - Set/reset mount counter
+        set_fact:
+          mount_count: 0
+        tags:
+          - 1.1.7
+
+      # Examine the ansible_mounts variable which includes all of the system mounts
+      #  on machine. Search for the appropriate mount information. If it exists,
+      #  increment the integer variable by '1' and save the filesystems options to a
+      #  new variable called mount_options.
+      - name: 1.1.7 - Determine if /var/tmp is on a separate partition
+        set_fact:
+          mount_count: "addition{{ mount_count + 1 }}"
+          mount_options: "{{ item.options }}"
+        when: item.mount == "/boot"
+        with_items:
+          - "{{ ansible_mounts }}"
+        tags:
+          - 1.1.7
+
+      # If the number in mount_count variable is != 0, then we found the mount. If not,
+      #  then report to the user that the given filesystem was not on a separate partition.
+      - name: 1.1.7 - Report to user if /var/tmp not on separate partition
+        lineinfile:
+          path: /etc/ansible/facts.d/cis.fact
+          regexp: '1.1.7'
+          line: "1.1.7: PASSED - /var/tmp is on a separate partition."
+        when: mount_count != 1
+        changed_when: true
+        tags:
+          - 1.1.7
+
+      # If the number in mount_count variable is > 0, then we found the mount. If not,
+      #  then report to the user that the given filesystem was not on a separate partition.
+      - name: 1.1.7 - Report to user if /var/tmp not on separate partition
+        lineinfile:
+          path: /etc/ansible/facts.d/cis.fact
+          regexp: '1.1.7'
+          line: "1.1.7: FAILED - /var/tmp is not on a separate partition. Skipping mount option checks"
+        when: mount_count == 0
+        changed_when: true
+        tags:
+          - 1.1.7
+
+  # Determine if a filesystem is on a separate partition, if so, then
+  #  check to see if various filesystem options exist for the filesystem
+  - name: 1.1.11 - Report if /var/log is not on a separate partition
+    block:
+      # Create a empty integer variable and set it as a fact on the managed
+      #  machine.
+      - name: 1.1.11 - Set/reset mount counter
+        set_fact:
+          mount_count: 0
+
+      # Examine the ansible_mounts variable which includes all of the system mounts
+      #  on machine. Search for the appropriate mount information. If it exists,
+      #  increment the integer variable by '1' and save the filesystems options to a
+      #  new variable called mount_options.
+      - name: 1.1.11 - Determine if /var/log is on a separate partition
+        set_fact:
+          mount_count: "addition{{ mount_count + 1 }}"
+        when: item.mount == "/"
+        with_items:
+          - "{{ ansible_mounts }}"
+
+      # If the number in mount_count variable is > 0, then we found the mount. If not,
+      #  then report to the user that the given filesystem was not on a separate partition.
+      - name: 1.1.11 - Report to user
+        lineinfile:
+          path: /etc/ansible/facts.d/cis.fact
+          regexp: '1.1.11'
+          line: "1.1.11: PASSED - /var/log is on a separate partition"
+        when: mount_count != 0
+        changed_when: true
+
+      # If the number in mount_count variable is > 0, then we found the mount. If not,
+      #  then report to the user that the given filesystem was not on a separate partition.
+      - name: 1.1.11 - Report to user
+        lineinfile:
+          path: /etc/ansible/facts.d/cis.fact
+          regexp: '1.1.11'
+          line: "1.1.11: FAILED - /var/log is not on a separate partition"
+        when: mount_count == 0
+        changed_when: true
+
+    # This whole block can be turned off by excluding the following tag(s)
+    tags:
+      - 1.1.11
+

@@ -2,3 +2,4 @@
 # tasks file for local_facts
 - include: local_facts.yaml
 - include: fact_file.yaml
+- include: cis_facts.yaml
