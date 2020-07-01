@@ -98,8 +98,6 @@
           line: "1.1.11: FAILED - /var/log is not on a separate partition"
         when: mount_count == 0
         changed_when: true
-
     # This whole block can be turned off by excluding the following tag(s)
     tags:
       - 1.1.11
-
