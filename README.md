@@ -162,7 +162,8 @@ Your EC2 regions is eu-central-1.
 ## View the local facts using JQ
 To view the local facts file you just created, make sure JQ is installed and run the following:
 
-```$ ansible localhost -m setup | sed '1 s/^.*$/{/' | jq '.ansible_facts.ansible_local.local'
+```
+$ ansible localhost -m setup | sed '1 s/^.*$/{/' | jq '.ansible_facts.ansible_local.local'
 {
   "local_facts": {
     "ami_id": "ami-093762347983f511b",
