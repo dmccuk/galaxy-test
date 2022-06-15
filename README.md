@@ -159,6 +159,30 @@ The server support team is the web team.
 Your EC2 regions is eu-central-1.
 ````
 
+## View the local facts using JQ
+To view the local facts file you just created, make sure JQ is installed and run the following:
+
+```$ ansible localhost -m setup | sed '1 s/^.*$/{/' | jq '.ansible_facts.ansible_local.local'
+{
+  "local_facts": {
+    "ami_id": "ami-093762347983f511b",
+    "avail_zone": "eu-west-2b",
+    "callout": "8-6",
+    "cloud": "AWS",
+    "environment": "Dev",
+    "instance_type": "t2.micro",
+    "region": "eu-west-2",
+    "support_team": "web"
+  }
+}
+```
+
+Or to greab a specific fact, you can run the following:
+```
+$ ansible localhost -m setup | sed '1 s/^.*$/{/' | jq '.ansible_facts.ansible_local.local.local_facts.instance_type'
+"t2.micro"
+```
+
 Now make the changes you need for your environment re-run.
 
 
