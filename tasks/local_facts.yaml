@@ -19,7 +19,7 @@
     mode: '0755'
 
 - name: add Instance facts
-  script: /tmp/customFactSetup.sh
+  command: /tmp/customFactSetup.sh
 
 - name: local facts
   debug: var=ansible_local
